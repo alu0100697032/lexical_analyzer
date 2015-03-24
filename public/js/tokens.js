@@ -1,105 +1,93 @@
 "use strict";
 // tokens.js
 // 2010-02-23
-
 // Produce an array of simple token objects from a string.
 // A simple token object contains these members:
-//      type: 'name', 'string', 'number', 'operator'
-//      value: string or number value of the token
-//      from: index of first character of the token
-//      to: index of the last character + 1
-
+// type: 'name', 'string', 'number', 'operator'
+// value: string or number value of the token
+// from: index of first character of the token
+// to: index of the last character + 1
 // Comments are ignored.
-
 RegExp.prototype.bexec = function(str) {
-  var i = this.lastIndex;
-  var m = this.exec(str);
-  if (m && m.index == i) return m;
-  return null;
+    var i = this.lastIndex;
+    var m = this.exec(str);
+    if (m && m.index == i) return m;
+    return null;
 }
-
-String.prototype.tokens = function () {
-    var from;                   // The index of the start of the token.
-    var i = 0;                  // The index of the current character.
-    var n;                      // The number value.
-    var str;                    // The string value.
-    var m;                      // Matching
-    var result = [];            // An array to hold the results.
-
-    var WHITES              = _______________________________________;
-    var ID                  = _______________________________________;
-    var NUM                 = _______________________________________;
-    var STRING              = _______________________________________;
-    var ONELINECOMMENT      = _______________________________________;
-    var MULTIPLELINECOMMENT = _______________________________________;
-    var TWOCHAROPERATORS    = _______________________________________;
-    var ONECHAROPERATORS    = _______________________________________;
-
+String.prototype.tokens = function() {
+    var from; // The index of the start of the token.
+    var i = 0; // The index of the current character.
+    var n; // The number value.
+    var m; // Matching
+    var result = []; // An array to hold the results.
+    var WHITES = /\s+/g;
+    var ID = /[a-zA-Z_]\w*/g;
+    var NUM = /\b\d+(\.\d*)?([eE][+-]?\d+)?\b/g;
+    var STRING = /('(\\.|[^'])*'|"(\\.|[^"])*")/g;
+    var ONELINECOMMENT = /\/\/.*/g;
+    var MULTIPLELINECOMMENT = /\/[*](.|\n)*?[*]\//g;
+    var TWOCHAROPERATORS = /([+][+=]|-[-=]|=[=<>]|[<>][=<>]|&&|[|][|])/g;
+    var ONECHAROPERATORS = /([-+*\/=()&|;:,<>{}[\]])/g; // May be some character is missing?
+    var tokens = [WHITES, ID, NUM, STRING, ONELINECOMMENT,
+        MULTIPLELINECOMMENT, TWOCHAROPERATORS, ONECHAROPERATORS
+    ];
     // Make a token object.
-    var make = function (type, value) {
+    var make = function(type, value) {
         return {
-            type: _____,
-            value: ______,
-            from: ______,
-            to: ____
+            type: type,
+            value: value,
+            from: from,
+            to: i
         };
     };
-
+    var getTok = function() {
+        var str = m[0];
+        i += str.length; // Warning! side effect on i
+        return str;
+    };
     // Begin tokenization. If the source string is empty, return nothing.
-    if (!this) return; 
-
+    if (!this) return;
     // Loop through this text
-    while (_______________) {
-        WHITES.lastIndex =  ID.lastIndex = NUM.lastIndex = ______.lastIndex =
-        ONELINECOMMENT.lastIndex = ___________________.lastIndex =
-        ________________.lastIndex = ________________.lastIndex = _;
+    while (i < this.length) {
+        tokens.forEach(function(t) {
+            t.lastIndex = i;
+        }); // Only ECMAScript5
         from = i;
-        // Ignore whitespace.
-        if (m = WHITES.bexec(this)) {
-            str = m[0];
-            _______________
+        // Ignore whitespace and comments
+        if (m = WHITES.bexec(this) ||
+            (m = ONELINECOMMENT.bexec(this)) ||
+            (m = MULTIPLELINECOMMENT.bexec(this))) {
+            getTok();
+        }
         // name.
-        } else if (m = ID.bexec(this)) {
-            str = m[0];
-            _______________
-            result.push(make('name', str));
-
+        else if (m = ID.bexec(this)) {
+            result.push(make('name', getTok()));
+        }
         // number.
-        } else if (m = NUM.bexec(this)) {
-            str = m[0];
-            _______________
-
-            n = +str;
+        else if (m = NUM.bexec(this)) {
+            n = +getTok();
             if (isFinite(n)) {
-                result.____(make('number', n));
-            } else {
-                make('number', str).error("Bad number");
+                result.push(make('number', n));
             }
+            else {
+                make('number', m[0]).error("Bad number");
+            }
+        }
         // string
-        } else if (m = STRING.bexec(this)) {
-            str = m[0];
-            _______________
-            str = str.replace(/^____/,'');
-            str = str.replace(/["']$/,'');
-            result.____(make('string', str));
-        // comment.
-        } else if ((m = ONELINECOMMENT.bexec(this))  || 
-                   (m = MULTIPLELINECOMMENT.bexec(this))) {
-            str = m[0];
-            _______________
+        else if (m = STRING.bexec(this)) {
+            result.push(make('string', getTok().replace(/^["']|["']$/g, '')));
+        }
         // two char operator
-        } else if (m = TWOCHAROPERATORS.bexec(this)) {
-            str = m[0];
-            _______________
-            result.____(make('operator', str));
-        // single-character operator
-        } else if (m = ONECHAROPERATORS.bexec(this)){
-            result.____(make('operator', this.substr(i,1)));
-            _______________
-        } else {
-          throw "Syntax error near '"+this.substr(i)+"'";
+        else if (m = TWOCHAROPERATORS.bexec(this)) {
+            result.push(make('operator', getTok()));
+            // single-character operator
+        }
+        else if (m = ONECHAROPERATORS.bexec(this)) {
+            result.push(make('operator', getTok()));
+        }
+        else {
+            throw "Syntax error near '" + this.substr(i) + "'";
         }
     }
     return result;
 };
-
