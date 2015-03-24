@@ -1,11 +1,14 @@
-
-desc "Generates out.pdf containing the listings"
+desc "run the http server"
 task :default do
-  #sh "a2ps --columns=1 -f 8 -R *.js *.html -o out.ps"
-  sh "a2ps --columns=1 -f 8 -R index.html -o out.ps"
-  sh "ps2pdf out.ps out.pdf"
+  sh "ruby app.rb"
 end
 
-task :clean do
-  sh 'rm -f out.pdf out.ps out.ps~'
+desc "run the server via rackup"
+task :rackup do
+  sh "rackup"
+end
+
+desc "deploy heroku app"
+task :deploy do
+  sh "git push heroku master"
 end
