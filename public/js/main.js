@@ -21,6 +21,7 @@ function main() {
         string = JSON.stringify(e, ['name', 'message', 'from', 'to', 'key',
                 'value', 'arity', 'first', 'second', 'third', 'fourth'], 4);
     }
+    $("#OUTPUT").css("display", "block");
     OUTPUT.innerHTML = string.replace(/&/g, '&amp;').replace(/[<]/g, '&lt;');
 };
 
