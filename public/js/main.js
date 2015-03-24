@@ -25,6 +25,9 @@ function main() {
     OUTPUT.innerHTML = string.replace(/&/g, '&amp;').replace(/[<]/g, '&lt;');
 };
 
-window.onload = function() {
-  PARSE.onclick = main;
-}
+$(document).ready(function(){
+    $("#PARSE").click(function(){
+        main();
+    });
+});
+
