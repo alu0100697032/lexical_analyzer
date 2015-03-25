@@ -1,9 +1,9 @@
-#Práctica: CSV (Comma Separated Values)
+#Práctica: Analizador Léxico
 
 Contexto:
 =========
 
-El objetivo de la práctica es generar una tabla desde una cadena csv.
+El objetivo de la práctica es generar un flujo de tokens a partir de un fichero de o texto de entrada.
 
 Usando:
     Html.
