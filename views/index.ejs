@@ -66,13 +66,19 @@
         </div>
     </nav>
     <div>
-        <h3>Write javascript code and click "Analyze"</h3>
+        <h3 class="desc">Write javascript code, or load from a file and click <b><i>Analyze</i></b></h3>
         <textarea id="INPUT" class="form-control">
             var a = "hello"; // initialize a 
             var b = function(x) { 
                         var c = 3; return x+c; 
                     };
         </textarea>
+        <br>
+        <div class="desc">
+            <input id="e1" value="Ejemplo1" type="button" class="btn btn-lg btn-warning">
+            <input value="Ejemplo2" type="button" class="btn btn-lg btn-warning">
+            <input value="Ejemplo3" type="button" class="btn btn-lg btn-warning">
+        </div>
         <br>
         <div id="dropzone">
             Drag & Drop files here

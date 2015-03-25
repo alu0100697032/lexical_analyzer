@@ -6575,6 +6575,14 @@ button.close {
   display: none;
 }
 
+#INPUT{
+  min-height: 150px;
+}
+
+.desc{
+  text-align: center;
+}
+
 #dropzone{
   width: 100%;
   background: black;

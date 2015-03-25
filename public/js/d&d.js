@@ -1,17 +1,29 @@
- function handleFileSelect(evt) {
+ /*function handleFileSelect(evt) {
     evt.stopPropagation();
     evt.preventDefault();
-    var data = evt.dataTransfer.getData("text"); // FileList object.
-    document.getElementById('INPUT').innerHTML = data;
+    var files = evt.dataTransfer.files; // FileList object.
+    
+    document.getElementById('INPUT').innerHTML = files.length;
+    evt.target.style.background = "black";
   }
 
   function handleDragOver(evt) {
     evt.stopPropagation();
     evt.preventDefault();
-    evt.target.style.opacity = 1.0;
+    evt.target.style.background = "white";
   }
 
   // Setup the dnd listeners.
-  var dropzone = document.getElementById('dropzone');
-  dropzone.addEventListener('dragover', handleDragOver, false);
-  dropzone.addEventListener('drop', handleFileSelect, false);
+  var dropZone = document.getElementById('dropzone');
+  dropZone.addEventListener('dragover', handleDragOver, false);
+  dropZone.addEventListener('drop', handleFileSelect, false);*/
+  
+$(document).ready(function(){
+  $("#e1").click(function(){
+    $("#INPUT").val('var a = "hello"; // initialize a'
+       +'\n var b = function(x) {'
+       +'\nvar c = 3;'
+       +'\nreturn x+c;'
+       +'\n};');
+    });
+});
