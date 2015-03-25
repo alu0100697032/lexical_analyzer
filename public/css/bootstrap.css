@@ -6580,4 +6580,8 @@ button.close {
   background: black;
   opacity: 0.7;
   padding: 50px;
+  text-align: center;
+  font-size: 20px;
+  color: white;
+  border-radius: 10px;
 }
