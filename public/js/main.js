@@ -1,16 +1,19 @@
 $(document).ready(function(){
-Object.prototype.error = function (message, t) {
+    $("#PARSE").click(function(){
+        main();
+    });
+});
+/*Object.prototype.error = function (message, t) {
     t = t || this;
     t.name = "SyntaxError";
     t.message = message;
     throw t;
-};
-
+};*/
 function main() {
     var parse = make_parse();
 
 
-    var source = INPUT.value;
+    var source = document.getElementById('INPUT').value;
     var string, tree;
     try {
         tree = parse(source);
@@ -23,12 +26,6 @@ function main() {
                 'value', 'arity', 'first', 'second', 'third', 'fourth'], 4);
     }
     $("#OUTPUT").css("display", "block");
-    OUTPUT.innerHTML = string.replace(/&/g, '&amp;').replace(/[<]/g, '&lt;');
+    document.getElementById('OUTPUT').innerHTML = string.replace(/&/g, '&amp;').replace(/[<]/g, '&lt;');
 };
-
-
-    $("#PARSE").click(function(){
-        main();
-    });
-});
 

@@ -1,10 +1,3 @@
-// parse.js
-// Parser for Simplified JavaScript written in Simplified JavaScript
-// From Top Down Operator Precedence
-// http://javascript.crockford.com/tdop/index.html
-// Douglas Crockford
-// 2010-06-26
-
 var make_parse = function () {
     var scope;
     var symbol_table = {};

@@ -1,13 +1,3 @@
-"use strict";
-// tokens.js
-// 2010-02-23
-// Produce an array of simple token objects from a string.
-// A simple token object contains these members:
-// type: 'name', 'string', 'number', 'operator'
-// value: string or number value of the token
-// from: index of first character of the token
-// to: index of the last character + 1
-// Comments are ignored.
 RegExp.prototype.bexec = function(str) {
     var i = this.lastIndex;
     var m = this.exec(str);
