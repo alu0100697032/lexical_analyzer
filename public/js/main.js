@@ -1,3 +1,4 @@
+$(document).ready(function(){
 Object.prototype.error = function (message, t) {
     t = t || this;
     t.name = "SyntaxError";
@@ -25,7 +26,7 @@ function main() {
     OUTPUT.innerHTML = string.replace(/&/g, '&amp;').replace(/[<]/g, '&lt;');
 };
 
-$(document).ready(function(){
+
     $("#PARSE").click(function(){
         main();
     });
